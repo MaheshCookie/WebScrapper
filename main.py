@@ -1,10 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 import time
+
 print('Put some skill tha you are not familiar with' )
 #unfamiliar_skill=[]
-unfamiliar_skill = input('>')
-#unfamiliar_skill = str(input().split())
+#unfamiliar_skill = input('>')
+unfamiliar_skill = str(input().split()).lower()
 print(f'Filtering out {unfamiliar_skill}')
 #print(unfamiliar_skill)
 
@@ -20,7 +21,10 @@ def find_jobs():
             skills = []
             skills = job.find('span', class_ ='srp-skills').text.replace(' ','')
             more_info = job.header.h2.a['href']
-            if unfamiliar_skill  not in skills:
+            tskills = list(skills.strip().split(','))
+            #if unfamiliar_skill  not in skills:
+            result = any(elem in unfamiliar_skill for elem in tskills )
+            if result != True:
                 print(f'Company Name: {company_name.strip()}')
                 print(f'Skills: {skills.strip()}')
                 print(f'More_Info: {more_info}')
